@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
+	"keid/config"
 	"net/http"
 )
 
 func main() {
-	println("Hello, World!")
+	r := config.NewRouter()
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	r.Get("/hello", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Hello, World!")
 	})
 

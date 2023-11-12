@@ -5,7 +5,7 @@ and chi as http router.
 ## Goals
 
 - [x] Create a simple api in go
-- [ ] Use redis as primary datastore
+- [x] Use redis as primary datastore
 - [x] Use chi as http router
 
 ## How to run

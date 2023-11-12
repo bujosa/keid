@@ -28,7 +28,7 @@ func userIDKey(id uuid.UUID) string {
 
 var ErrNotExist = errors.New("user does not exist")
 
-func (r *UserRepository) Insert(ctx context.Context, user model.User) error {
+func (r *UserRepository) Create(ctx context.Context, user model.User) error {
 	data, err := json.Marshal(user)
 	if err != nil {
 		return fmt.Errorf("failed to encode user: %w", err)

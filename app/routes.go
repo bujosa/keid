@@ -8,13 +8,13 @@ import (
 )
 
 func loadRoutes() *chi.Mux {
-	rou := chi.NewRouter()
+	router := chi.NewRouter()
 
-	r.Use(middleware.Logger)
+	router.Use(middleware.Logger)
 
 	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Hello world!"))
 	})
 
-	return r
+	return router
 }

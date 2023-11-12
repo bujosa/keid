@@ -15,10 +15,12 @@ type App struct {
 }
 
 func New() *App {
-	return &App{
-		router: loadRoutes(),
-		db:     redis.NewClient(&redis.Options{}),
+	app := &App{
+		db: redis.NewClient(&redis.Options{}),
 	}
+
+	app.loadRoutes()
+	return app
 }
 
 // Start starts the application server.

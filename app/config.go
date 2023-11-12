@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 )
@@ -16,15 +17,26 @@ func LoadConfig() Config {
 		ServerPort:   3000,
 	}
 
-	if redisAddr, exists := os.LookupEnv("REDIS_ADDR"); exists {
+	updateServerPort(&cfg)
+
+	if redisAddr, exists := os.LookupEnv("REDIS_ENDPOINT"); exists {
 		cfg.RedisAddress = redisAddr
 	}
 
-	if serverPort, exists := os.LookupEnv("SERVER_PORT"); exists {
-		if port, err := strconv.ParseUint(serverPort, 10, 16); err == nil {
-			cfg.ServerPort = uint16(port)
-		}
+	return cfg
+}
+
+func updateServerPort(cfg *Config) error {
+	serverPort, exists := os.LookupEnv("SERVER_PORT")
+	if !exists {
+		return nil
 	}
 
-	return cfg
+	port, err := strconv.ParseUint(serverPort, 10, 16)
+	if err != nil {
+		return fmt.Errorf("invalid SERVER_PORT: %v", err)
+	}
+
+	cfg.ServerPort = uint16(port)
+	return nil
 }

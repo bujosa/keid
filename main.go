@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"keid/app"
 	"os"
 	"os/signal"
@@ -15,7 +16,6 @@ func main() {
 
 	err := app.Start(ctx)
 	if err != nil {
-		panic(err)
+		fmt.Println("failed to start app", err)
 	}
-
 }

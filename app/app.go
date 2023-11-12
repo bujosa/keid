@@ -15,7 +15,9 @@ type App struct {
 	config Config
 }
 
-func New(config Config) *App {
+func New() *App {
+	config := LoadConfig()
+
 	app := &App{
 		db: redis.NewClient(&redis.Options{
 			Addr: config.RedisAddress,

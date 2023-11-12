@@ -1,7 +1,7 @@
 package app
 
 import (
-	"context"
+	"keid/handler"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -17,14 +17,17 @@ func loadRoutes() *chi.Mux {
 		w.Write([]byte("Hello world!"))
 	})
 
+	router.Route(("/users"), loadUserRoutes)
+
 	return router
 }
 
-func (a *App) Start(ctx context.Context) error {
-	server := &http.Server{
-		Addr:    ":8080",
-		Handler: a.router,
-	}
+func loadUserRoutes(router chi.Router) {
+	userHandler := &handler.User{}
 
-	return server.ListenAndServe()
+	router.Get("/", userHandler.GetAll)
+	router.Post("/", userHandler.Create)
+	router.Get("/{id}", userHandler.GetById)
+	router.Put("/{id}", userHandler.Update)
+	router.Delete("/{id}", userHandler.Delete)
 }

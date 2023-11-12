@@ -6,7 +6,7 @@ and chi as http router.
 
 - [x] Create a simple microservice in go
 - [ ] Use redis as primary datastore
-- [ ] Use chi as http router
+- [x] Use chi as http router
 
 ## How to run
 

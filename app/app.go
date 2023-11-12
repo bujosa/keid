@@ -6,7 +6,7 @@ type App struct {
 	router http.Handler
 }
 
-func NewApp() *App {
+func New() *App {
 	return &App{
 		router: loadRoutes(),
 	}

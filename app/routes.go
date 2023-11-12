@@ -1,6 +1,7 @@
 package app
 
 import (
+	"context"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -17,4 +18,13 @@ func loadRoutes() *chi.Mux {
 	})
 
 	return router
+}
+
+func (a *App) Start(ctx context.Context) error {
+	server := &http.Server{
+		Addr:    ":8080",
+		Handler: a.router,
+	}
+
+	return server.ListenAndServe()
 }

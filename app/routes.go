@@ -1,7 +1,7 @@
 package app
 
 import (
-	"keid/handler"
+	"keid/controller"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -17,17 +17,7 @@ func loadRoutes() *chi.Mux {
 		w.Write([]byte("Hello world!"))
 	})
 
-	router.Route(("/users"), loadUserRoutes)
+	router.Route(("/users"), controller.LoadUserRoutes)
 
 	return router
-}
-
-func loadUserRoutes(router chi.Router) {
-	userHandler := &handler.User{}
-
-	router.Get("/", userHandler.GetAll)
-	router.Post("/", userHandler.Create)
-	router.Get("/{id}", userHandler.GetById)
-	router.Put("/{id}", userHandler.Update)
-	router.Delete("/{id}", userHandler.Delete)
 }

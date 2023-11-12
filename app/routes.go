@@ -9,18 +9,18 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 )
 
-func (a *App) loadRoutes() *chi.Mux {
+func (a *App) loadRoutes() {
 	router := chi.NewRouter()
 
 	router.Use(middleware.Logger)
 
 	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Hello world!"))
+		w.WriteHeader(http.StatusOK)
 	})
 
 	router.Route(("/users"), a.LoadUserRoutes)
 
-	return router
+	a.router = router
 }
 
 func (a *App) LoadUserRoutes(router chi.Router) {

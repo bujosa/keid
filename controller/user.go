@@ -1,6 +1,10 @@
-package handler
+package controller
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/go-chi/chi/v5"
+)
 
 type User struct{}
 
@@ -22,4 +26,14 @@ func (u *User) Update(w http.ResponseWriter, r *http.Request) {
 
 func (u *User) Delete(w http.ResponseWriter, r *http.Request) {
 	// do something
+}
+
+func LoadUserRoutes(router chi.Router) {
+	userHandler := &User{}
+
+	router.Get("/", userHandler.GetAll)
+	router.Post("/", userHandler.Create)
+	router.Get("/{id}", userHandler.GetById)
+	router.Put("/{id}", userHandler.Update)
+	router.Delete("/{id}", userHandler.Delete)
 }

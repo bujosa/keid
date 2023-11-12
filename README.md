@@ -1,10 +1,10 @@
 # keid
-This is a simple microservice in go using redis as primary datastore
+This is a simple api in go using redis as primary datastore
 and chi as http router.
 
 ## Goals
 
-- [x] Create a simple microservice in go
+- [x] Create a simple api in go
 - [ ] Use redis as primary datastore
 - [x] Use chi as http router
 
@@ -16,7 +16,7 @@ and chi as http router.
 docker run --name redis -p 6379:6379 -d redis
 ```
 
-### Run the microservice
+### Run the api
 
 ```go
 go run main.go

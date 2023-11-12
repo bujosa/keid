@@ -12,14 +12,19 @@ import (
 type App struct {
 	router http.Handler
 	db     *redis.Client
+	config Config
 }
 
-func New() *App {
+func New(config Config) *App {
 	app := &App{
-		db: redis.NewClient(&redis.Options{}),
+		db: redis.NewClient(&redis.Options{
+			Addr: config.RedisAddress,
+		}),
+		config: config,
 	}
 
 	app.loadRoutes()
+
 	return app
 }
 
@@ -28,28 +33,29 @@ func New() *App {
 // It returns an error if there was a problem starting the server.
 func (a *App) Start(ctx context.Context) error {
 	server := &http.Server{
-		Addr:    ":8080",
+		Addr:    fmt.Sprintf(":%d", a.config.ServerPort),
 		Handler: a.router,
 	}
 
 	err := a.db.Ping(ctx).Err()
 	if err != nil {
-		return fmt.Errorf("failed to ping redis: %w", err)
+		return fmt.Errorf("failed to connect to redis: %w", err)
 	}
+
 	defer func() {
 		if err := a.db.Close(); err != nil {
-			fmt.Printf("failed to close redis connection: %v\n", err)
+			fmt.Println("failed to close redis", err)
 		}
 	}()
 
-	fmt.Println("Starting server on port 8080")
+	fmt.Println("Starting server")
 
 	ch := make(chan error, 1)
 
 	go func() {
 		err = server.ListenAndServe()
 		if err != nil {
-			ch <- fmt.Errorf("failed to listen and serve: %w", err)
+			ch <- fmt.Errorf("failed to start server: %w", err)
 		}
 		close(ch)
 	}()
